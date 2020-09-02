@@ -15,7 +15,7 @@ string Aktie::getName(){
 }
 
 int Aktie::getAnzahlAktien(){
-	int summe = 0;
+	int summe =0;
 	for(vector<int>::iterator it = buy.begin(); it != buy.end();it++ ){
 		summe += (*it);
 	}
@@ -23,13 +23,9 @@ int Aktie::getAnzahlAktien(){
 }
 
 double Aktie::getValue(){
-	double ergebnis = 0;
 	vector<double>::iterator it = preis.end();
-	ergebnis = (*(it-1));
-	return ergebnis;
+	return *(--it);
 }
-
-
 
 void Aktie::setValue(double wert){
 	preis.push_back(wert);
@@ -44,6 +40,16 @@ void Aktie::buyAt(int anzahl, double wert){
 void Aktie::sellAt(int anzahl, double wert){
 	preis.push_back(wert);
 	buy.push_back(-anzahl);
+}
+
+void Aktie::getStatistik(){
+	std::cout << "Aktie: "<< name <<std::endl;
+	vector<double>::iterator itp = preis.begin();
+	vector<int>::iterator itb = buy.begin();
+	for(int i = 0; i< (int)buy.size();i++ ){
+		std::cout << "		"<< i+1 <<". Transaktion		Preis: " << *(itp+i) << "		Anzahl: " << *(itb+i)<<std::endl;
+	}
+	std::cout<<std::endl;	//Formatierung
 }
 
 Aktie::~Aktie(){

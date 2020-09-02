@@ -9,13 +9,17 @@
 
 int main(){
 
+
 	Konto konto;
 
 	bool done = false;
 	while(!done){
 		std::cout<< "Moegliche Auswahl: " <<std::endl;
-		std::cout<< "(1):  Einfügen einer neuen Aktie." <<std::endl;
-		std::cout<< "(2):  Ausgeben der Aktien" <<std::endl;
+		std::cout<< "(1):  Kaufen einer Aktie." <<std::endl;		// Schlechte position der ausgabe noch ändern
+		std::cout<< "(2):  Ausgeben der Aktien." <<std::endl;
+		std::cout<< "(3):  Verkaufen einer Aktie." <<std::endl;
+		std::cout<< "(4):  Statistiken." <<std::endl;
+		std::cout<< "(5):  Verlauf einer Aktie." << std::endl;
 		std::cout<< "(6):  Beenden!" <<std::endl;
 
 
@@ -25,21 +29,26 @@ int main(){
 		switch(eingabe){
 			case 1:
 			{
+				std::cout<< "Eingeben des Names der gekauften Aktie:" << std::endl;
 				std::string name;
+				std::cin>> name;
+
+				std::cout<< "Wert der Aktie:" << std::endl;
 				double wert;
+				std::cin>> wert;
+
+				std::cout<< "Wie viele Aktien:" << std::endl;
 				int anzahl;
-				std::cout<< "Name der Aktie: " <<std::endl;
-				std::cin >> name;
-				fflush(stdin);
-				std::cout<< "Wert der Aktie: " <<std::endl;
-				std::cin >> wert;
-				fflush(stdin);
-				std::cout<< "Anzahl der Aktie: " <<std::endl;
-				std::cin >> anzahl;
-				fflush(stdin);
-				Aktie* aktie = new Aktie(name);
-				aktie->buyAt(anzahl,wert);
-				konto.addAktie(*aktie);
+				std::cin>> anzahl;
+
+				Aktie* aktie = konto.getAktie(name);
+				if(aktie == nullptr){
+					Aktie* neu = new Aktie(name);
+					neu->buyAt(anzahl,wert);
+					konto.addAktie(*neu);
+				}else{
+					aktie->buyAt(anzahl,wert);
+				}
 				break;
 			}
 			case 2:
@@ -48,11 +57,52 @@ int main(){
 				break;
 			}
 			case 3:
+			{
+				std::cout<< "Eingeben des Names der verkauften Aktie:" << std::endl;
+				std::string name;
+				std::cin>> name;
+
+				std::cout<< "Wert der Aktie:" << std::endl;
+				double wert;
+				std::cin>> wert;
+
+				std::cout<< "Wie viele Aktien:" << std::endl;
+				int anzahl;
+				std::cin>> anzahl;
+
+				Aktie* aktie = konto.getAktie(name);
+				if(aktie == nullptr){
+					std::cout << "Es gibt keine Aktie mit diesem Namen in der Datenbank!" << std::endl;
+				}else{
+					if(aktie->getAnzahlAktien()>=anzahl){
+						aktie->sellAt(anzahl,wert);
+					}else{
+						aktie->sellAt(aktie->getAnzahlAktien(),wert);
+						std::cout << "Da nur " << aktie->getAnzahlAktien() << "Aktie im Besitz sind werden alle verkauft." << std::endl;
+					}
+				}
 				break;
+			}
 			case 4:
+			{
+				// Alles einfügen was mir noch so einfällt. Gesamtvermögen, Gewinn, Investiert,
+			}
 				break;
 			case 5:
+			{
+				std::cout<< "Eingeben des Names der Aktie:" << std::endl;
+				std::string name;
+				std::cin>> name;
+
+				Aktie* aktie = konto.getAktie(name);
+				if(aktie != nullptr){
+					aktie->getStatistik();
+				}else{
+					std::cout << "Es wurde keine Aktie mit diesem Namen gefunden." <<std::endl;
+				}
+
 				break;
+			}
 			case 6:
 				return 0;
 				break;
