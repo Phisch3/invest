@@ -5,6 +5,9 @@
  *      Author: phili
  */
 #include "konto.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
 
 
 int main(){
@@ -18,9 +21,10 @@ int main(){
 		std::cout<< "(1):  Kaufen einer Aktie." <<std::endl;		// Schlechte position der ausgabe noch ändern
 		std::cout<< "(2):  Ausgeben der Aktien." <<std::endl;
 		std::cout<< "(3):  Verkaufen einer Aktie." <<std::endl;
-		std::cout<< "(4):  Statistiken." <<std::endl;
+		std::cout<< "(4):  Speichern." <<std::endl;
 		std::cout<< "(5):  Verlauf einer Aktie." << std::endl;
 		std::cout<< "(6):  Beenden!" <<std::endl;
+		std::cout<< "(7):  Laden" <<std::endl;
 
 
 		int eingabe;
@@ -85,7 +89,19 @@ int main(){
 			}
 			case 4:
 			{
-				// Alles einfügen was mir noch so einfällt. Gesamtvermögen, Gewinn, Investiert,
+				ofstream myfile;
+				myfile.clear();
+				myfile.open ("example.txt");
+				for(int index =0;index<konto.getLength();index++){
+					Aktie* aktie = konto.getAktie(index);
+					string name = aktie->getName();
+					myfile << name << std::endl;
+					for(int i=0;i<aktie->getLength();i++){
+						myfile<<aktie->getTransaction(i)<<std::endl;
+					}
+					myfile << "$$$$$" << std::endl << std::endl;
+				}
+				myfile.close();
 			}
 				break;
 			case 5:
@@ -104,8 +120,15 @@ int main(){
 				break;
 			}
 			case 6:
+			{
 				return 0;
 				break;
+			}
+			case 7:
+			{
+
+				break;
+			}
 			default:
 				std::cout<< "Fehlerhafte Eingabe!!" <<std::endl;
 				break;

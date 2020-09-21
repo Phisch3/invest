@@ -41,4 +41,8 @@ void Konto::ausgabeAllAktien(){
 	}
 }
 
+int Konto::getLength(){
+	return (int)aktienListe.size();
+}
+
 

@@ -52,6 +52,24 @@ void Aktie::getStatistik(){
 	std::cout<<std::endl;	//Formatierung
 }
 
+int Aktie::getLength(){
+	return buy.size();
+}
+
+string Aktie::getTransaction(int index){
+	vector<double>::iterator itp = preis.begin();
+	vector<int>::iterator itb = buy.begin();
+	if(index<(int)preis.size()){
+		string output = "Preis: ";
+		output +=std::to_string(*(itp+index));
+		output += "  Anzahl: ";
+		output += std::to_string(*(itb+index));
+		return output;
+	}
+	return "No Transaction with this index!";
+}
+
+
 Aktie::~Aktie(){
 
 }

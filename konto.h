@@ -18,11 +18,14 @@ class Konto {
 
 
 	public:
+
 	void addAktie(Aktie);
 	Aktie* getAktie(int);
 	Aktie* getAktie(string);
 	void aktieLoeschen(); // nicht erstellt
-	void ausgabeAllAktien(); // nicht erstellt
+	void ausgabeAllAktien();
+	int getLength();
+
 
 
 

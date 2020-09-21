@@ -29,6 +29,8 @@ class Aktie {
 	double getValue();
 	int getAnzahlAktien();
 	void getStatistik();
+	int getLength();
+	string getTransaction(int);
 
 	//Aufträge
 	void setValue(double);
