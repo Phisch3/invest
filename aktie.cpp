@@ -60,9 +60,8 @@ string Aktie::getTransaction(int index){
 	vector<double>::iterator itp = preis.begin();
 	vector<int>::iterator itb = buy.begin();
 	if(index<(int)preis.size()){
-		string output = "Preis: ";
-		output +=std::to_string(*(itp+index));
-		output += "  Anzahl: ";
+		string output = std::to_string(*(itp+index));
+		output += "\n";
 		output += std::to_string(*(itb+index));
 		return output;
 	}

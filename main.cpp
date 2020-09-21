@@ -21,10 +21,10 @@ int main(){
 		std::cout<< "(1):  Kaufen einer Aktie." <<std::endl;		// Schlechte position der ausgabe noch ändern
 		std::cout<< "(2):  Ausgeben der Aktien." <<std::endl;
 		std::cout<< "(3):  Verkaufen einer Aktie." <<std::endl;
-		std::cout<< "(4):  Speichern." <<std::endl;
-		std::cout<< "(5):  Verlauf einer Aktie." << std::endl;
-		std::cout<< "(6):  Beenden!" <<std::endl;
-		std::cout<< "(7):  Laden" <<std::endl;
+		std::cout<< "(4):  Verlauf einer Aktie" <<std::endl;
+		std::cout<< "(5):  Speichern" << std::endl;
+		std::cout<< "(6):  Laden" <<std::endl;
+		std::cout<< "(7):  Beenden!" <<std::endl;
 
 
 		int eingabe;
@@ -89,23 +89,6 @@ int main(){
 			}
 			case 4:
 			{
-				ofstream myfile;
-				myfile.clear();
-				myfile.open ("example.txt");
-				for(int index =0;index<konto.getLength();index++){
-					Aktie* aktie = konto.getAktie(index);
-					string name = aktie->getName();
-					myfile << name << std::endl;
-					for(int i=0;i<aktie->getLength();i++){
-						myfile<<aktie->getTransaction(i)<<std::endl;
-					}
-					myfile << "$$$$$" << std::endl << std::endl;
-				}
-				myfile.close();
-			}
-				break;
-			case 5:
-			{
 				std::cout<< "Eingeben des Names der Aktie:" << std::endl;
 				std::string name;
 				std::cin>> name;
@@ -117,16 +100,56 @@ int main(){
 					std::cout << "Es wurde keine Aktie mit diesem Namen gefunden." <<std::endl;
 				}
 
+			}
+				break;
+			case 5:
+			{
+				ofstream myfile;
+				myfile.clear();
+				myfile.open ("aktien.txt");
+				for(int index =0;index<konto.getLength();index++){
+					Aktie* aktie = konto.getAktie(index);
+					string name = aktie->getName();
+					for(int i=0;i<aktie->getLength();i++){
+						myfile<< name<<std::endl;
+						myfile<< aktie->getTransaction(i) <<std::endl;
+					}
+					myfile << "$$$$$" << std::endl << std::endl;
+				}
+				myfile.close();
 				break;
 			}
 			case 6:
 			{
-				return 0;
+				ifstream myfile("aktien.txt");
+				string line;
+				while(true){
+					std::getline(myfile,line);
+					if(line == "$$$$$"){
+						break;
+					}
+					string name = line;
+
+					std::getline(myfile,line);
+					double wert = std::stod(line);
+
+					std::getline(myfile,line);
+					int anzahl = std::stoi(line);
+
+					Aktie* aktie = konto.getAktie(name);
+					if(aktie == nullptr){
+						Aktie* neu = new Aktie(name);
+						neu->buyAt(anzahl,wert);
+						konto.addAktie(*neu);
+					}else{
+						aktie->buyAt(anzahl,wert);
+					}
+				}
 				break;
 			}
 			case 7:
 			{
-
+				return 0;
 				break;
 			}
 			default:
